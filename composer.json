@@ -1,24 +1,34 @@
 {
-    "name": "laravel/laravel",
+    "name": "alexoffss/laravel-base",
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
-        "guzzlehttp/guzzle": "^7.2",
+        "php": "^8.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
-        "laravel/tinker": "^2.7"
+        "doctrine/dbal": "^3.3",
+        "guzzlehttp/guzzle": "^7.2",
+        "league/flysystem-aws-s3-v3": "^3.1"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "brianium/paratest": "^6.6",
+        "fakerphp/faker": "^1.20.0",
+        "itsgoingd/clockwork": "^5.1",
+        "mockery/mockery": "^1.5.0",
+        "nunomaduro/collision": "^6.2",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "secure-http": false,
+        "allow-plugins": {
+            "composer/installers": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -29,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/backend/"
         }
     },
     "scripts": {
@@ -37,29 +47,37 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "cs": "phpcs --parallel=3",
+        "cs-fix": "phpcbf --parallel=3",
+        "coverage-html": "@php artisan test -p=3 --stop-on-failure --coverage-html=storage/app/coverage",
+        "test": "@php artisan test -p=3 --stop-on-failure"
+    },
+    "scripts-descriptions": {
+        "cs": "Check code style",
+        "cs-fix": "Fix code style errors",
+        "coverage-html": "Generate code coverage report to `storage/app/coverage`",
+        "test": "Run tests"
     },
     "extra": {
         "laravel": {
             "dont-discover": []
         }
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/*"
         }
-    },
-    "minimum-stability": "stable",
+    ],
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
