@@ -25,7 +25,7 @@ services:
 
   php:
     container_name: ${APP_NAME}-php
-    image: akarabudka/php-fpm:8.1
+    image: akarabudka/php-fpm:8.3
     environment:
       - TZ=${TZ}
     volumes:
